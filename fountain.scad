@@ -188,10 +188,12 @@ translate([33,33,islandCircleZ]){
 
 
 module showStatues(){
-translate([0,0,statueHeight]){
-    scale([columnScaling,columnScaling,columnScaling]){
-        translate([-24.32,-28.92,0]){
-            import("/home/justin/code/raspi-fountain/Gargoyle_Fountain-spout_tall.stl");
+rotate([0,0,0]){
+    translate([0,0,statueHeight]){
+        scale([columnScaling,columnScaling,columnScaling]){
+            translate([-24.32,-28.92,0]){
+                import("/home/justin/code/raspi-fountain/Gargoyle_Fountain-spout_tall.stl");
+            }
         }
     }
 }
