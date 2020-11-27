@@ -353,63 +353,63 @@ cylinder(baseHeight, gutterRadius+islandRadius, gutterRadius+islandRadius);
 //        cylinder(wallStandinHeight, gutterRadius+islandRadius, gutterRadius+islandRadius);
 //    }
 //}
-   
-//gpio/sd card corner mounting peg 
-translate([-14.5,-3,baseHeight]){
-    color("Green")
-    cylinder(mountingPegBaseHeight, mountingPegBaseRadius, mountingPegBaseRadius);
-    translate([0,0,mountingPegBaseHeight]){
+    //usb/audio corner mounting peg   
+    
+    translate([-14.5,-3,baseHeight]){
         color("Green")
-        cylinder(mountingPegHeight, mountingPegRadius, mountingPegRadius*0.9);
-    }
-}
-//power/sd card corner mounting peg
-translate([34.5,-3,baseHeight]){
-    color("Green")
-    cylinder(mountingPegBaseHeight, mountingPegBaseRadius, mountingPegBaseRadius);
-    translate([0,0,mountingPegBaseHeight]){
-        color("Green")
-        cylinder(mountingPegHeight, mountingPegRadius, mountingPegRadius*0.9);
-    }
-}
-//usb/audio corner mounting peg
-translate([34.5,55,baseHeight]){
-    color("Green")
-    cylinder(mountingPegBaseHeight, mountingPegBaseRadius, mountingPegBaseRadius);
-    translate([0,0,mountingPegBaseHeight]){
-        color("Green")
-        cylinder(mountingPegHeight, mountingPegRadius, mountingPegRadius*0.9);
-    }
-}
-//ethernet/gpio corner mounting peg
-translate([-14.5,55,baseHeight]){
-    color("Green")
-    cylinder(mountingPegBaseHeight, mountingPegBaseRadius, mountingPegBaseRadius);
-    translate([0,0,mountingPegBaseHeight]){
-        color("Green")
-        cylinder(mountingPegHeight, mountingPegRadius, mountingPegRadius*0.9);
-    }
-}
-
-//fan holder
-translate([-(fanWidth+fanHolderWallThickness*2)/2,63,baseHeight]){
-    difference(){
-        color("Grey")
-        //outer holder
-        cube([fanWidth+fanHolderWallThickness*2,fanThickness+fanHolderWallThickness*2,5]);
-        
-        translate([fanHolderWallThickness,fanHolderWallThickness,0]){
-            //corners void
-            cube([fanWidth,fanThickness,5]);
+        cylinder(mountingPegBaseHeight, mountingPegBaseRadius, mountingPegBaseRadius);
+        translate([0,0,mountingPegBaseHeight]){
+            color("Green")
+            cylinder(mountingPegHeight, mountingPegRadius, mountingPegRadius*0.9);
         }
-        
-        translate([fanWidth/2-10,0,0]){
-            //central void
-            cube([fanWidth-10,fanThickness+fanHolderWallThickness*2,5]);
+    }
+    //ethernet/gpio corner mounting peg
+    translate([34.5,-3,baseHeight]){
+        color("Green")
+        cylinder(mountingPegBaseHeight, mountingPegBaseRadius, mountingPegBaseRadius);
+        translate([0,0,mountingPegBaseHeight]){
+            color("Green")
+            cylinder(mountingPegHeight, mountingPegRadius, mountingPegRadius*0.9);
+        }
+    }
+    //gpio/sd card corner mounting peg 
+    translate([34.5,55,baseHeight]){
+        color("Green")
+        cylinder(mountingPegBaseHeight, mountingPegBaseRadius, mountingPegBaseRadius);
+        translate([0,0,mountingPegBaseHeight]){
+            color("Green")
+            cylinder(mountingPegHeight, mountingPegRadius, mountingPegRadius*0.9);
+        }
+    }
+    //power/sd card corner mounting peg
+    translate([-14.5,55,baseHeight]){
+        color("Green")
+        cylinder(mountingPegBaseHeight, mountingPegBaseRadius, mountingPegBaseRadius);
+        translate([0,0,mountingPegBaseHeight]){
+            color("Green")
+            cylinder(mountingPegHeight, mountingPegRadius, mountingPegRadius*0.9);
+        }
+    }
+    
+    //fan holder
+    translate([-(fanWidth+fanHolderWallThickness*2)/2,62,baseHeight]){
+        difference(){
+            color("SlateGray")
+            //outer holder
+            cube([fanWidth+fanHolderWallThickness*2,fanThickness+fanHolderWallThickness*2,5]);
             
+            translate([fanHolderWallThickness,fanHolderWallThickness,0]){
+                //corners void
+                cube([fanWidth,fanThickness,5]);
+            }
+            
+            translate([fanWidth/2-10,0,0]){
+                //central void
+                cube([fanWidth-10,fanThickness+fanHolderWallThickness*2,5]);
+                
+            }
         }
     }
-}
     
 
 }// end module base
