@@ -245,6 +245,10 @@ difference(){ //outer donut to chop off vertical slabs
             translate([0,0,wallHeight-wallUprightsThickness]){
                 cylinder(wallUprightsThickness, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
             }
+            //top ridge graduated overhang (so no supports needed when printing)
+            translate([0,0,wallHeight-wallUprightsThickness*2+0.5]){
+                cylinder(wallUprightsThickness-0.5,wallMinThickness+gutterRadius+islandRadius,wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
+            }
             
             //iterate and create vertical upright walls with cube/slabs - extend beyond outer wall and chop them off below.
             //outer wall suprights ar spaced according to cicumference / height (wallHeight - wallUprightsThickness*2) so they make squares (ish)
