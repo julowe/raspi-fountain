@@ -274,6 +274,22 @@ difference(){ //outer donut to chop off vertical slabs
         
         //main interior void
         cylinder(wallHeight+1, gutterRadius+islandRadius, gutterRadius+islandRadius);
+        
+//        //fan vents
+//        for (i = [-5:5]){
+//            translate([i*3,(gutterRadius+islandRadius)-(1*abs(i))-1,wallUprightsThickness]){
+//                cube([1.5,(wallMinThickness+wallUprightsThickness)*2,fanWidth-2]); //FIXME magic number, from fanwidth - base - height - wall thickness or some such
+//            }
+//        }
+        
+        //intake vents
+        for (i = [0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22]){
+            rotate([0,0,3.75+i*3]){
+                translate([-(gutterRadius+islandRadius)-6,0,wallUprightsThickness]){
+                    cube([(wallMinThickness+wallUprightsThickness)*2,2,8.5]); //FIXME magic number, from fanwidth - base - height - wall thickness or some such
+                }
+            }
+        }
     } //end difference - main outside wall
     
     //create donut that interior void starts at outside of outside uprgihts - this will chop off extensions of verical uprights that are not circular
