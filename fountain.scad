@@ -262,13 +262,13 @@ difference(){ //outer donut to chop off vertical slabs
             
             //iterate and create spheres inside center of these squares to create boss effect (done in code here, so the part of sphere inside the fountain basin is differenced away)
             
-//            for (i = [0:9]){
-//                rotate([0,0,36*i+36/2+2]){
-//                    translate([wallMinThickness+gutterRadius+islandRadius-wallHeight/4+wallUprightsThickness-0.2,-wallUprightsThickness/2,wallHeight/2]){
-//                        sphere(wallHeight/4);
-//                    }
-//                }
-//            }
+            for (i = [0:9]){
+                rotate([0,0,36*i+36/2+2]){
+                    translate([wallMinThickness+gutterRadius+islandRadius-wallHeight/4+wallUprightsThickness-0.2,-wallUprightsThickness/2,wallHeight/2-1.5]){
+                        sphere(wallHeight/4);
+                    }
+                }
+            }
             
         }//end union
         
