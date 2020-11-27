@@ -337,22 +337,12 @@ difference(){ //outer donut to chop off vertical slabs
 
 
 
-
-
 module base(){
-//base
-color("Grey")
-cylinder(baseHeight, gutterRadius+islandRadius, gutterRadius+islandRadius); 
+    //base
+    color("Grey")
+    cylinder(baseHeight, gutterRadius+islandRadius, gutterRadius+islandRadius); 
+       
     
-//difference(){
-//    wallStandinHeight = 2;
-//    //wall stand in
-//    color("Blue")
-//    cylinder(baseHeight+wallStandinHeight, (wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius), (wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius)); 
-//    translate([0,0,baseHeight]){
-//        cylinder(wallStandinHeight, gutterRadius+islandRadius, gutterRadius+islandRadius);
-//    }
-//}
     //usb/audio corner mounting peg   
     
     translate([-14.5,-3,baseHeight]){
