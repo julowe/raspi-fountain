@@ -290,6 +290,38 @@ difference(){ //outer donut to chop off vertical slabs
                 }
             }
         }
+        
+        //usb passthrough hole
+        usbPassThroughRadius = 6;
+        usbPassThroughWidth = 22; //5 and 20 are actually perfect. let's see if tall enough of a passthrough though TODO check this
+        translate([-usbPassThroughRadius-5,-(gutterRadius+islandRadius)+4,usbPassThroughRadius-2+baseHeight+mountingPegBaseHeight]){
+            rotate([90,0,0]){
+                hull(){
+                cylinder((wallMinThickness+wallUprightsThickness)*2,usbPassThroughRadius,usbPassThroughRadius);
+                    translate([usbPassThroughRadius*2+10,0,0]){
+                        cylinder((wallMinThickness+wallUprightsThickness)*2,usbPassThroughRadius,usbPassThroughRadius);
+                    }
+                }
+            }
+        }
+        
+        //power passthrough hole
+        //15.1mm from mounting hole
+
+        powerPassThroughRadius = 6;
+        powerPassThroughWidth = 20; //5 and 20 are actually perfect. let's see if tall enough of a passthrough though TODO check this
+        //translate([-powerPassThroughRadius,-(gutterRadius+islandRadius)+4,powerPassThroughRadius+2+baseHeight+mountingPegBaseHeight]){
+        //FIXME magic number of 60, correct way is to use trig. fix later...
+        translate([-60,54-15.1-1.5,powerPassThroughRadius-2+baseHeight+mountingPegBaseHeight]){
+            rotate([90,0,-90]){
+                hull(){
+                cylinder((wallMinThickness+wallUprightsThickness)*2,powerPassThroughRadius,powerPassThroughRadius);
+                    translate([powerPassThroughRadius*2,0,0]){
+                        cylinder((wallMinThickness+wallUprightsThickness)*3,powerPassThroughRadius,powerPassThroughRadius);
+                    }
+                }
+            }
+        }
     } //end difference - main outside wall
     
     //create donut that interior void starts at outside of outside uprgihts - this will chop off extensions of verical uprights that are not circular
