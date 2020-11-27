@@ -1,8 +1,10 @@
 //Fountain & RetroPi Case
 //justin Lowe 20201123
 
+//make island for imported models
 //import gargoyle x4 (52mm wide 39mm deep, 50mm tall)
 //import spout/coumn (22mm square, 70.8mm tall)
+//make basin
 //make base
 
 //fan 30mm square, 7mm deep
@@ -10,6 +12,12 @@
 
 //difference on stls is fucked
 //difference(){
+
+//TODO TODO
+//screw holes and inset heads on bottom of base
+//material for heat set inserts to go into
+//fan vents
+//check hemispherical boss clearance
 
 draftingFNs = 36;
 renderFNs = 180;
@@ -30,14 +38,14 @@ wholeCircumf = wholeRadius*2*PI;
 partsCircum = wholeCircumf/(wallHeight-wallUprightsThickness*2);
 echo(floor(wholeRadius));
 
-baseHeight = 3;
+baseHeight = 2;
 mountingPegHeight = 5;
 mountingPegRadius = 2.7/2;
 mountingPegBaseHeight = 5;
 mountingPegBaseRadius = 5/2;
 fanHolderWallThickness = 1;
-fanThickness = 8.1;
-fanWidth = 30;
+fanThickness = 7.8;
+fanWidth = 30.5;
 
 //58mm between center long side moutning holes
 //49mm between center short side moutning holes
@@ -91,7 +99,8 @@ rotate([0,0,-90]){
 
 islandWidth = 28;
 islandLength = (abs(gargoyleOffset)+12)*2;
-piClearance = 25; //16 for usb, 1 for board, 5 for friction fit peg bases, some for slack
+piClearance = 16+1+5+3; //16 for usb, 1 for board, 5 for friction fit peg bases, some for slack
+//piClearance = fanWidth;
 islandCircleHeight = 3;
 islandCircleZ = piClearance + baseHeight;
 minkRad = 3;
@@ -317,10 +326,13 @@ translate([-(fanWidth+fanHolderWallThickness*2)/2,63,baseHeight]){
 
 
 
-base();
-//basin();
+
+//base();
+basin();
+        
 island();
 frictionFitPosts();
 
-showStatues();
-    
+//showStatues();
+ 
+
