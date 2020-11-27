@@ -135,20 +135,57 @@ difference(){
         cylinder(islandCircleZ+minkRad*2, gutterRadius+islandRadius, gutterRadius+islandRadius); 
     }
 } //end difference
+
+difference(){
+    translate([0,0,islandCircleZ]){
+    color("Blue")
+    cylinder(islandCircleHeight, gutterRadius+islandRadius, gutterRadius+islandRadius); 
+    }
+    //no plinths
+    //translate([0,0,islandCircleZ]){
+    //color("Blue")
+    //cylinder(statueHeight-islandCircleZ, gutterRadius+islandRadius, gutterRadius+islandRadius); 
+    //}
+
+    translate([33,33,islandCircleZ]){
+        color("Green")
+        cylinder(islandCircleHeight, 14, 14);
+    }
+}
+
+        //28.25 inner diameter fan ring
+        //29.8 length swaure of fan
+        //2 width of fan central bars, so use 3
+
+//fan outflow vent supports
+translate([33,33,islandCircleZ]){
+    color("DarkSlateGray")
+    cylinder(islandCircleHeight, 17.5/2, 17.5/2);
+}
+translate([33,33,islandCircleZ]){
+    rotate([0,0,180]){
+        translate([0,-3/2,0]){
+            cube([15,3,islandCircleHeight]);
+        }
+    }
+    rotate([0,0,180+120]){
+        translate([0,-3/2,0]){
+            cube([15,3,islandCircleHeight]);
+        }
+    }
+    rotate([0,0,180+240]){
+        translate([0,-4/2,0]){
+            cube([15,4,islandCircleHeight]);
+        }
+    }
+}
+
 }
 //whitespace
 
 
 
-translate([0,0,islandCircleZ]){
-color("Blue")
-cylinder(islandCircleHeight, gutterRadius+islandRadius, gutterRadius+islandRadius); 
-}
-//no plinths
-//translate([0,0,islandCircleZ]){
-//color("Blue")
-//cylinder(statueHeight-islandCircleZ, gutterRadius+islandRadius, gutterRadius+islandRadius); 
-//}
+
 
 module showStatues(){
 translate([0,0,statueHeight]){
