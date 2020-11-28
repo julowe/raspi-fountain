@@ -18,10 +18,28 @@
 //material for heat set inserts to go into
 //fan vents
 //check hemispherical boss clearance
+//fan holder under island opens towards the -y axis (towards the +x axis plinth)
+//fan cable clip behind holder
+
+//FIRST: test printing basin upside down with new filament. see if support marks marr the visible surface. If not, then we can print upside down and have outer wall be entireley attached to base. (base does not need to be that thick, but see if printing time is much saved for decrese in the inner part's height)
+//    upside down: allows for straight top under edge of wall (not 45 degree angle). might be less support material & faster print (depends on height of inner circular platform from bottom vs from top). no bridging of passthroughs, but that seemed to go fine.
+//possibly have inset track in base for inner wall width (not outer wall uprights)
+
+//depending on above, deal with passthroughs
+//passthroughs: 
+//    maybe neat: lollipop pasthroughs? slot for one cable diameter and then make hemispherical boss instead a cylindrical void? i don't think so, but worth modeling?)
+//    make smaller, just for cable diameters
+//    remove bottom rounded edges, square off
+//    remove outer wall with above square
+//    use above square, minus 'printHorizontalTolerance' to intersect with faux outerwall and attach new outerwall piece to base. (this will provide insertion orientation as well as allow smaller passthrough as only cables need to fit through. cable heads will fit through passtrhough which is now completely open on one side)
+//make vents travel up to top of basin further
+//make vents have reinforcing bottom layer of material (possibly inset into base?)
 
 draftingFNs = 36;
 renderFNs = 180;
 $fn = draftingFNs;
+
+printHorizontalTolerance = 0.1;
 
 islandRadius = 53;
 
