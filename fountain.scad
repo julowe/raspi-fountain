@@ -61,9 +61,10 @@ mountingPegHeight = 5;
 mountingPegRadius = 2.7/2;
 mountingPegBaseHeight = 5;
 mountingPegBaseRadius = 5/2;
-fanHolderWallThickness = 1;
+fanHolderWallThickness = 2;
 fanThickness = 7.8;
 fanWidth = 30.5;
+fanCornerWidth = 6;
 
 //58mm between center long side moutning holes
 //49mm between center short side moutning holes
@@ -155,21 +156,23 @@ difference(){
 } //end difference
 
 difference(){
+    //main circular platform to support plinths
     translate([0,0,islandCircleZ]){
     color("Blue")
     cylinder(islandCircleHeight, gutterRadius+islandRadius, gutterRadius+islandRadius); 
     }
-    //no plinths
+    //no plinths (cicrular platform higher, to be what statues sit on)
     //translate([0,0,islandCircleZ]){
     //color("Blue")
     //cylinder(statueHeight-islandCircleZ, gutterRadius+islandRadius, gutterRadius+islandRadius); 
-    //}
-
+    //}    
+    
+    //subtraction cylinder to create void for pi etc    
     translate([33,33,islandCircleZ]){
         color("Green")
         cylinder(islandCircleHeight, 14, 14);
     }
-}
+}//end difference for main circular platform
 
         //28.25 inner diameter fan ring
         //29.8 length swaure of fan
@@ -196,6 +199,51 @@ translate([33,33,islandCircleZ]){
             cube([15,4,islandCircleHeight]);
         }
     }
+}
+
+
+
+
+
+//    //OLDOLDOLDfan holder
+//    translate([-(fanWidth+fanHolderWallThickness*2)/2,62,baseHeight]){
+//        difference(){
+//            color("SlateGray")
+//            //outer holder
+//            cube([fanWidth+fanHolderWallThickness*2,fanThickness+fanHolderWallThickness*2,5]);
+//            
+//            translate([fanHolderWallThickness,fanHolderWallThickness,0]){
+//                //corners void
+//                cube([fanWidth,fanThickness,5]);
+//            }
+//            
+//            translate([fanWidth/2-10,0,0]){
+//                //central void
+//                cube([fanWidth-10,fanThickness+fanHolderWallThickness*2,5]);
+//                
+//            }
+//        }
+//    }
+    
+    
+    
+translate([33,33+(fanHolderWallThickness)/2,islandCircleZ-(fanThickness+fanHolderWallThickness)/2]){
+    difference(){
+        //fan holder walls/outer cube
+        cube([fanWidth+fanHolderWallThickness*2,fanWidth+fanHolderWallThickness,fanThickness+fanHolderWallThickness], true);
+        
+        translate([0,-(fanHolderWallThickness)/2,fanHolderWallThickness]){
+            //main fan holder void/inner cube
+            cube([fanWidth,fanWidth,fanThickness], true);
+        }
+        translate([0,0,0]){
+            //remove area under fan retaining corners and some of intake area of fan holder void
+            cube([fanWidth+fanHolderWallThickness*2-(fanCornerWidth*2),fanWidth+fanHolderWallThickness,fanThickness+fanHolderWallThickness], true);
+        }
+        
+        //remove center of fan intake area
+        cube([fanWidth+fanHolderWallThickness*2,fanWidth+fanHolderWallThickness-(fanCornerWidth*2),fanThickness+fanHolderWallThickness], true);
+}
 }
 
 }
@@ -427,7 +475,7 @@ module base(){
 
 
 //base();
-basin();
+//basin();
         
 island();
 frictionFitPosts();
