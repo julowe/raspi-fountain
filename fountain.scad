@@ -340,8 +340,9 @@ difference(){ //outer donut to chop off vertical slabs
 //            }
 //        }
         
-        //intake vents
-        for (i = [0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22]){
+        //intake vents 
+        //ugh magic numbers for not cutting out columns
+        for (i = [-8,-7,-6,-5,-4,-3,-2,0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22]){
             rotate([0,0,3.75+i*3]){
                 translate([-(gutterRadius+islandRadius)-6,0,wallUprightsThickness]){
                     cube([(wallMinThickness+wallUprightsThickness)*2,2,8.5]); //FIXME magic number, from fanwidth - base - height - wall thickness or some such
