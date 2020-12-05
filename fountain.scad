@@ -468,25 +468,25 @@ module base(){
         }
     }
     
-    //fan holder
-    translate([-(fanWidth+fanHolderWallThickness*2)/2,62,baseHeight]){
-        difference(){
-            color("SlateGray")
-            //outer holder
-            cube([fanWidth+fanHolderWallThickness*2,fanThickness+fanHolderWallThickness*2,5]);
-            
-            translate([fanHolderWallThickness,fanHolderWallThickness,0]){
-                //corners void
-                cube([fanWidth,fanThickness,5]);
-            }
-            
-            translate([fanWidth/2-10,0,0]){
-                //central void
-                cube([fanWidth-10,fanThickness+fanHolderWallThickness*2,5]);
-                
-            }
-        }
-    }
+//    //fan holder
+//    translate([-(fanWidth+fanHolderWallThickness*2)/2,62,baseHeight]){
+//        difference(){
+//            color("SlateGray")
+//            //outer holder
+//            cube([fanWidth+fanHolderWallThickness*2,fanThickness+fanHolderWallThickness*2,5]);
+//            
+//            translate([fanHolderWallThickness,fanHolderWallThickness,0]){
+//                //corners void
+//                cube([fanWidth,fanThickness,5]);
+//            }
+//            
+//            translate([fanWidth/2-10,0,0]){
+//                //central void
+//                cube([fanWidth-10,fanThickness+fanHolderWallThickness*2,5]);
+//                
+//            }
+//        }
+//    }
     
 
 }// end module base
