@@ -16,8 +16,8 @@
 //TODO TODO
 //screw holes and inset heads on bottom of base
 //material for heat set inserts to go into
-//fan vents
-//check hemispherical boss clearance
+//more/bigger fan vents?
+//check hemispherical boss clearance on final render
 //fan holder under island opens towards the -y axis (towards the +x axis plinth)
 //fan cable clip behind holder
 
@@ -123,7 +123,6 @@ module island(){
 difference(){
     union(){
         color("LightBlue")
-        //TODO minkowski??
         //island cubes
         minkowski(){
             translate([0,0,statueHeight/2]){
@@ -169,9 +168,9 @@ difference(){
     }
 }//end difference for main circular platform
 
-        //28.25 inner diameter fan ring
-        //29.8 length swaure of fan
-        //2 width of fan central bars, so use 3
+//28.25 inner diameter fan ring
+//29.8 length swaure of fan
+//2 width of fan central bars, so use 3
 
 //fan outflow vent supports
 translate([33,33,islandCircleZ]){
@@ -431,7 +430,6 @@ module base(){
        
     
     //usb/audio corner mounting peg   
-    
     translate([-14.5,-3,baseHeight]){
         color("Green")
         cylinder(mountingPegBaseHeight, mountingPegBaseRadius, mountingPegBaseRadius);
