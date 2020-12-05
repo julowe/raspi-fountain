@@ -41,6 +41,9 @@ gutterHeight = 15;
 wallMinThickness = 2;
 wallUprightsThickness = 4;
 wallHeight = 45;
+wallInsetRingDepth = 2; //how deep of a trench to make in the base, for the basin to sit in?
+wallInsetRingGap = 1; //how much shorter should the basin wall be, then the trench that it goes into?
+wallInsetTolerance = 0.2; //how much bigger to make trench than the basin wall that goes into it - applied to RADIUS, so on each side remember
 
 //not needed :-(
 wholeRadius = (wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
@@ -48,7 +51,7 @@ wholeCircumf = wholeRadius*2*PI;
 partsCircum = wholeCircumf/(wallHeight-wallUprightsThickness*2);
 echo(floor(wholeRadius));
 
-baseHeight = 2;
+baseHeight = wallUprightsThickness;
 mountingPegHeight = 5;
 mountingPegRadius = 2.7/2;
 mountingPegBaseHeight = 5;
@@ -296,9 +299,12 @@ difference(){ //outer donut to chop off vertical slabs
     difference(){ //main outside wall
         union(){
             //main wall
-            cylinder(wallHeight, wallMinThickness+gutterRadius+islandRadius, wallMinThickness+gutterRadius+islandRadius);
-            //bottom ridge
-            cylinder(wallUprightsThickness, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
+            //
+            translate([0,0,baseHeight-wallInsetRingDepth+wallInsetRingGap]){
+                cylinder(wallHeight-baseHeight, wallMinThickness+gutterRadius+islandRadius, wallMinThickness+gutterRadius+islandRadius);
+            }
+//            //bottom ridge
+//            cylinder(wallUprightsThickness, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
             //top ridge
             translate([0,0,wallHeight-wallUprightsThickness]){
                 cylinder(wallUprightsThickness, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
@@ -312,8 +318,8 @@ difference(){ //outer donut to chop off vertical slabs
             //outer wall suprights ar spaced according to cicumference / height (wallHeight - wallUprightsThickness*2) so they make squares (ish)
             for (i = [0:9]){
                 rotate([0,0,36*i]){
-                    translate([0,-wallUprightsThickness/2,0]){
-                        cube([wholeRadius*1.1,wallUprightsThickness,wallHeight]);
+                    translate([0,-wallUprightsThickness/2,wallUprightsThickness]){
+                        cube([wholeRadius*1.1,wallUprightsThickness,wallHeight-wallUprightsThickness]);
                     }
                 }
             }
