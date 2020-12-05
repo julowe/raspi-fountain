@@ -410,9 +410,24 @@ difference(){ //outer donut to chop off vertical slabs
 
 
 module base(){
-    //base
-    color("Grey")
-    cylinder(baseHeight, gutterRadius+islandRadius, gutterRadius+islandRadius); 
+    difference(){
+        //base
+        color("Grey")
+        cylinder(baseHeight, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
+        
+        //baseHeight-wallInsetRingDepth+wallInsetRingGap
+        translate([0,0,baseHeight-wallInsetRingDepth]){
+            //trench for basin to sit in - make a donut, with tolerance
+            difference(){
+                //main wall
+                cylinder(wallInsetRingDepth, wallMinThickness+gutterRadius+islandRadius+wallInsetTolerance, wallMinThickness+gutterRadius+islandRadius+wallInsetTolerance);
+                
+                //main interior void
+                cylinder(wallInsetRingDepth, gutterRadius+islandRadius-wallInsetTolerance, gutterRadius+islandRadius-wallInsetTolerance);
+            
+            }
+        }
+    } 
        
     
     //usb/audio corner mounting peg   
