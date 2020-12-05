@@ -25,15 +25,7 @@
 //    upside down: allows for straight top under edge of wall (not 45 degree angle). might be less support material & faster print (depends on height of inner circular platform from bottom vs from top). no bridging of passthroughs, but that seemed to go fine.
 //possibly have inset track in base for inner wall width (not outer wall uprights)
 
-//depending on above, deal with passthroughs
-//passthroughs: 
-//    maybe neat: lollipop pasthroughs? slot for one cable diameter and then make hemispherical boss instead a cylindrical void? i don't think so, but worth modeling?)
-//    make smaller, just for cable diameters
-//    remove bottom rounded edges, square off
-//    remove outer wall with above square
-//    use above square, minus 'printHorizontalTolerance' to intersect with faux outerwall and attach new outerwall piece to base. (this will provide insertion orientation as well as allow smaller passthrough as only cables need to fit through. cable heads will fit through passtrhough which is now completely open on one side)
-//make vents travel up to top of basin further
-//make vents have reinforcing bottom layer of material (possibly inset into base?)
+//make vents travel up to top of basin further?
 
 draftingFNs = 36;
 renderFNs = 180;
@@ -358,14 +350,17 @@ difference(){ //outer donut to chop off vertical slabs
         }
         
         //usb passthrough hole
-        usbPassThroughRadius = 6;
-        usbPassThroughWidth = 22; //5 and 20 are actually perfect. let's see if tall enough of a passthrough though TODO check this
-        translate([-usbPassThroughRadius-5,-(gutterRadius+islandRadius)+4,usbPassThroughRadius-2+baseHeight+mountingPegBaseHeight]){
+        usbPassThroughRadius = 4;
+        usbPassThroughWidth = 20; //TODO check this
+        translate([-usbPassThroughRadius-12.5,-(gutterRadius+islandRadius)+4,usbPassThroughRadius-3+baseHeight+mountingPegBaseHeight]){
             rotate([90,0,0]){
                 hull(){
-                cylinder((wallMinThickness+wallUprightsThickness)*2,usbPassThroughRadius,usbPassThroughRadius);
-                    translate([usbPassThroughRadius*2+10,0,0]){
+                    cylinder((wallMinThickness+wallUprightsThickness)*2,usbPassThroughRadius,usbPassThroughRadius);
+                    translate([usbPassThroughWidth-usbPassThroughRadius*2,0,0]){
                         cylinder((wallMinThickness+wallUprightsThickness)*2,usbPassThroughRadius,usbPassThroughRadius);
+                    }
+                    translate([-usbPassThroughRadius,-(usbPassThroughRadius+5),0]){
+                        cube([usbPassThroughWidth,usbPassThroughRadius+5,(wallMinThickness+wallUprightsThickness)*3]);
                     }
                 }
             }
@@ -373,17 +368,21 @@ difference(){ //outer donut to chop off vertical slabs
         
         //power passthrough hole
         //15.1mm from mounting hole
+        //usb cable is around 5mm DIAMETER, so how about 4mm radius hole x 5 cables
 
-        powerPassThroughRadius = 6;
-        powerPassThroughWidth = 20; //5 and 20 are actually perfect. let's see if tall enough of a passthrough though TODO check this
+        powerPassThroughRadius = 4;
+        powerPassThroughWidth = 10; // TODO check this fits 4 or more cables well
         //translate([-powerPassThroughRadius,-(gutterRadius+islandRadius)+4,powerPassThroughRadius+2+baseHeight+mountingPegBaseHeight]){
         //FIXME magic number of 60, correct way is to use trig. fix later...
-        translate([-60,54-15.1-1.5,powerPassThroughRadius-2+baseHeight+mountingPegBaseHeight]){
+        translate([-60,55-15.1-1.5,powerPassThroughRadius-3+baseHeight+mountingPegBaseHeight]){
             rotate([90,0,-90]){
                 hull(){
-                cylinder((wallMinThickness+wallUprightsThickness)*2,powerPassThroughRadius,powerPassThroughRadius);
-                    translate([powerPassThroughRadius*2,0,0]){
+                    cylinder((wallMinThickness+wallUprightsThickness)*3,powerPassThroughRadius,powerPassThroughRadius);
+                    translate([powerPassThroughWidth-powerPassThroughRadius*2,0,0]){
                         cylinder((wallMinThickness+wallUprightsThickness)*3,powerPassThroughRadius,powerPassThroughRadius);
+                    }
+                    translate([-powerPassThroughRadius,-(powerPassThroughRadius+5),0]){
+                        cube([powerPassThroughWidth,powerPassThroughRadius+5,(wallMinThickness+wallUprightsThickness)*3]);
                     }
                 }
             }
