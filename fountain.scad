@@ -33,7 +33,10 @@
 draftingFNs = 36;
 minkowskiDraftFNs = 90; //fan vent through island will not subtract through correctly unless minkowski curvature of void piece is fine enough
 renderFNs = 180;
-$fn = draftingFNs;
+$fn = renderFNs;
+
+
+//////////////////////////////////////////////////
 
 printHorizontalTolerance = 0.1;
 
@@ -47,7 +50,7 @@ wallUprightsThickness = 4;
 wallHeight = 45;
 wallInsetRingDepth = 2; //how deep of a trench to make in the base, for the basin to sit in?
 wallInsetRingGap = 1; //how much shorter should the basin wall be, then the trench that it goes into?
-wallInsetTolerance = 0.2; //how much bigger to make trench than the basin wall that goes into it - applied to RADIUS, so on each side remember
+wallInsetTolerance = 0.2; //how much bigger to make trench than the basin wall that goes into it - applied to RADIUS, so this much gap is on inside an doutside of trench compared to basin wall remember
 
 //not needed :-(
 wholeRadius = (wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
@@ -149,7 +152,7 @@ difference(){
             cylinder(islandCircleHeight+minkRadVoid, gutterRadius+islandRadius, gutterRadius+islandRadius); 
         }
     
-        //island cubes
+        //island plinth cube
         color("LightBlue")
         minkowski(){
             translate([0,0,statueHeight/2]){
@@ -160,6 +163,7 @@ difference(){
             }
         }
         
+        //island plinth cube
         color("LightBlue")
         minkowski(){
             translate([0,0,statueHeight/2]){
@@ -171,20 +175,31 @@ difference(){
         }
     }//end union
     
-    
+    minkFudgeHeight = 2; //subtraction void is just barely under islandCircleZ, so adding extra height
     //subtraction cylinder to create void for fan vent  
-    translate([33,33,islandCircleZ]){
+    translate([33,33,islandCircleZ-minkFudgeHeight/2]){
         color("Green")
-        cylinder(islandCircleHeight, 14, 14);
+        cylinder(islandCircleHeight+minkFudgeHeight, 14, 14);
     }
     
+    heatSetInsertHoleOffsetFanHolder = (30/2)-3;
+    //subtraction cylinder for heatset insert to hold fan  
+    for (i = [-1:2:1]) {
+        for (j = [-1:2:1]) {
+            translate([33+(i*heatSetInsertHoleOffsetFanHolder),33+(j*heatSetInsertHoleOffsetFanHolder),islandCircleZ-minkFudgeHeight]){
+                color("Green")
+                //magic number to not go through island but tradeoff with having some gap for melt
+                cylinder(voidInsertHeight+0.5+minkFudgeHeight, voidInsertRadius, voidInsertRadius);
+            }
+        }
+    }
     
     //remove bottom of plints and chamfer bottom edge of island
     minkowski(){
-        translate([0,0,-minkRadVoid*2]){
-            cylinder(islandCircleZ+minkRadVoid*2,gutterRadius+islandRadius-minkRadVoid,gutterRadius+islandRadius-minkRadVoid);
-        }
         translate([0,0,-minkRadVoid]){
+            cylinder(islandCircleZ,gutterRadius+islandRadius-minkRadVoid,gutterRadius+islandRadius-minkRadVoid);
+        }
+        translate([0,0,0]){
             sphere(minkRadVoid);
         }
     }
@@ -258,13 +273,13 @@ rotate([0,0,-90]){
 }
 
 
-//
-//translate([24.32,28.92,5/2]){
-//    color("Red")
-////    cube([22.1,22.1,70.8],true); //true size
-//    cube([5,5,5],true); //true size
-//}
-//}
+    //
+    //translate([24.32,28.92,5/2]){
+    //    color("Red")
+    ////    cube([22.1,22.1,70.8],true); //true size
+    //    cube([5,5,5],true); //true size
+    //  }
+
 }
 //whitespace
 
@@ -545,10 +560,10 @@ module base(){
 
 
 
-base();
-basin();
+//base();
+//basin();
       
-//island();
+island();
 //frictionFitPosts();
 
 //showStatues();
