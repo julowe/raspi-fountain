@@ -115,21 +115,28 @@ islandWidth = 28;
 islandLength = (abs(gargoyleOffset)+12)*2;
 piClearance = 16+1+5+3; //16 for usb, 1 for board, 5 for friction fit peg bases, some for slack
 //piClearance = fanWidth;
-islandCircleHeight = 3;
+islandCircleHeight = 6;
 islandCircleZ = piClearance + baseHeight;
-minkRad = 3;
+minkPlinthRad = 3;
+minkVoidRad = 5;
 
 module island(){
 difference(){
-    union(){
-        color("LightBlue")
+    union(){ 
+        //main circular platform to support plinths
+        translate([0,0,islandCircleZ-5]){
+            color("Blue")
+            cylinder(islandCircleHeight+5, gutterRadius+islandRadius, gutterRadius+islandRadius); 
+        }
+    
         //island cubes
+        color("LightBlue")
         minkowski(){
             translate([0,0,statueHeight/2]){
                 cube([islandLength,islandWidth,statueHeight],true);
             }
-            translate([0,0,0-minkRad]){
-                sphere(minkRad);
+            translate([0,0,0-minkPlinthRad]){
+                sphere(minkPlinthRad);
             }
         }
         
@@ -138,35 +145,30 @@ difference(){
             translate([0,0,statueHeight/2]){
                 cube([islandWidth,islandLength,statueHeight],true);
             }
-            translate([0,0,0-minkRad]){
-                sphere(minkRad);
+            translate([0,0,0-minkPlinthRad]){
+                sphere(minkPlinthRad);
             }
         }
     }//end union
     
-    translate([0,0,-minkRad*2]){
-        cylinder(islandCircleZ+minkRad*2, gutterRadius+islandRadius, gutterRadius+islandRadius); 
-    }
-} //end difference
-
-difference(){
-    //main circular platform to support plinths
-    translate([0,0,islandCircleZ]){
-    color("Blue")
-    cylinder(islandCircleHeight, gutterRadius+islandRadius, gutterRadius+islandRadius); 
-    }
-    //no plinths (cicrular platform higher, to be what statues sit on)
-    //translate([0,0,islandCircleZ]){
-    //color("Blue")
-    //cylinder(statueHeight-islandCircleZ, gutterRadius+islandRadius, gutterRadius+islandRadius); 
-    //}    
     
-    //subtraction cylinder to create void for pi etc    
+    //subtraction cylinder to create void for fan vent  
     translate([33,33,islandCircleZ]){
         color("Green")
         cylinder(islandCircleHeight, 14, 14);
     }
-}//end difference for main circular platform
+    
+    
+    //remove bottom of plints and chamfer bottom edge of island
+    minkowski(){
+        translate([0,0,-minkVoidRad*2]){
+            cylinder(islandCircleZ+minkVoidRad*2,gutterRadius+islandRadius-minkVoidRad,gutterRadius+islandRadius-minkVoidRad);
+        }
+        translate([0,0,-minkVoidRad]){
+            sphere(minkVoidRad);
+        }
+    }
+} //end difference
 
 //28.25 inner diameter fan ring
 //29.8 length swaure of fan
