@@ -14,19 +14,22 @@
 //difference(){
 
 //TODO TODO
-//screw holes and inset heads on bottom of base
+//test friction fit pegs
+//screw holes and inset for screw heads on bottom of base
 //material for heat set inserts to go into
-//more/bigger fan vents?
 //check hemispherical boss clearance on final render
 //NOPE-fan holder under island opens towards the -y axis (towards the +x axis plinth)
 //YEP-heat insert holes to hold fan in place
+
+//maybe TODO
+//more/bigger fan vents?
+//make vents travel up to top of basin further?
 //fan cable clip behind holder
 
 //FIRST: test printing basin upside down with new filament. see if support marks marr the visible surface. If not, then we can print upside down and have outer wall be entireley attached to base. (base does not need to be that thick, but see if printing time is much saved for decrese in the inner part's height)
 //    upside down: allows for straight top under edge of wall (not 45 degree angle). might be less support material & faster print (depends on height of inner circular platform from bottom vs from top). no bridging of passthroughs, but that seemed to go fine.
 //possibly have inset track in base for inner wall width (not outer wall uprights)
 
-//make vents travel up to top of basin further?
 
 draftingFNs = 36;
 renderFNs = 180;
@@ -55,7 +58,7 @@ echo(floor(wholeRadius));
 baseHeight = wallUprightsThickness;
 mountingPegHeight = 5;
 mountingPegRadius = 2.7/2;
-mountingPegBaseHeight = 5;
+mountingPegBaseHeight = 4;
 mountingPegBaseRadius = 5/2;
 fanHolderWallThickness = 2;
 fanThickness = 7.8;
@@ -74,9 +77,70 @@ fanCornerWidth = 6;
 
 
 
+//heat insert mounts
+voidInsertRadius = 5.3/2;
+voidInsertHeight = 5;
+voidInsertHeightBottomPadding = 2;
+voidInsertWallThickness = 3;
+
+rotHeat = 9.3; //how many degrees to rotate heat insert on basin walls to center them
+gapBaseBasinFactor = 1.05; //factor to multiple base height by to get a small gap between heat set insert and actual base plate - not used.
+gapBaseBasinSize = 0.24; //absolute size to add to get a small gap between heat set insert and actual base plate - about one printed layer
+
+//test heat insert on basin wall
+difference(){
+    union(){
+        translate([0,0,baseHeight+gapBaseBasinSize]){
+        //        rotate([0,0,(0-5)/2]){
+            rotate([0,0,-rotHeat/2]){
+                rotate_extrude(angle = rotHeat){
+                    translate([gutterRadius+islandRadius-6,0,0]){
+                        square([6.1,7]);
+                    }
+                }
+            }
+        }
+        translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+        //        difference(){
+            color("Green")
+            cylinder(7, voidInsertRadius+3, voidInsertRadius+3);
+        }
+    } //end union
+        
+        
+    //            translate([0,0,-2]){
+    translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+        color("Green")
+        cylinder(7, voidInsertRadius, voidInsertRadius-0.1);
+    }
+
+}
+
+
+
+//
+//    translate([-14.5,55,baseHeight]){
+//        difference(){
+//            color("Green")
+//            cylinder(5, voidInsertRadius+3, voidInsertRadius+3);
+//            translate([0,0,-2]){
+//                color("Green")
+//                cylinder(7, voidInsertRadius-0.1, voidInsertRadius);
+//            }
+//        }
+//    }
+
+
+
+
+
+
+
 gargoyleOffset = -45;
 columnScaling = 1.6;
 statueHeight = wallHeight-5;
+
+
 
 //TODO make posts larger??
 module frictionFitPosts(){
@@ -260,7 +324,7 @@ difference(){ //outer donut to chop off vertical slabs
             translate([0,0,baseHeight-wallInsetRingDepth+wallInsetRingGap]){
                 cylinder(wallHeight-baseHeight, wallMinThickness+gutterRadius+islandRadius, wallMinThickness+gutterRadius+islandRadius);
             }
-//            //bottom ridge
+//            //bottom ridge - not used here now - bottom rid is now part of base cylinder that basin sits on top of (or slightly in trench on base cylinder)
 //            cylinder(wallUprightsThickness, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
             //top ridge
             translate([0,0,wallHeight-wallUprightsThickness]){
@@ -335,7 +399,7 @@ difference(){ //outer donut to chop off vertical slabs
         //usb cable is around 5mm DIAMETER, so how about 4mm radius hole x 5 cables
 
         powerPassThroughRadius = 4;
-        powerPassThroughWidth = 10; // TODO check this fits 4 or more cables well
+        powerPassThroughWidth = 10; // TODO check this fits 2 or more cables well
         //translate([-powerPassThroughRadius,-(gutterRadius+islandRadius)+4,powerPassThroughRadius+2+baseHeight+mountingPegBaseHeight]){
         //FIXME magic number of 60, correct way is to use trig. fix later...
         translate([-60,55-15.1-1.5,powerPassThroughRadius-3+baseHeight+mountingPegBaseHeight]){
@@ -368,9 +432,15 @@ difference(){ //outer donut to chop off vertical slabs
 
 module base(){
     difference(){
-        //base
+        //base cylinder itself
         color("Grey")
         cylinder(baseHeight, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
+        
+        //subtract area from base for melted plastic from heat insert to go into  
+        translate([-14.5,55,baseHeight+mountingPegBaseHeight-voidInsertHeight-voidInsertHeightBottomPadding]){
+            color("Green")
+            cylinder(voidInsertHeightBottomPadding+voidInsertHeight, voidInsertRadius-0.1, voidInsertRadius-0.1);
+        }
         
         //baseHeight-wallInsetRingDepth+wallInsetRingGap
         translate([0,0,baseHeight-wallInsetRingDepth]){
@@ -414,36 +484,29 @@ module base(){
             cylinder(mountingPegHeight, mountingPegRadius, mountingPegRadius*0.9);
         }
     }
-    //power/sd card corner mounting peg
-    translate([-14.5,55,baseHeight]){
-        color("Green")
-        cylinder(mountingPegBaseHeight, mountingPegBaseRadius, mountingPegBaseRadius);
-        translate([0,0,mountingPegBaseHeight]){
-            color("Green")
-            cylinder(mountingPegHeight, mountingPegRadius, mountingPegRadius*0.9);
-        }
-    }
     
-//    //fan holder
-//    translate([-(fanWidth+fanHolderWallThickness*2)/2,62,baseHeight]){
-//        difference(){
-//            color("SlateGray")
-//            //outer holder
-//            cube([fanWidth+fanHolderWallThickness*2,fanThickness+fanHolderWallThickness*2,5]);
-//            
-//            translate([fanHolderWallThickness,fanHolderWallThickness,0]){
-//                //corners void
-//                cube([fanWidth,fanThickness,5]);
-//            }
-//            
-//            translate([fanWidth/2-10,0,0]){
-//                //central void
-//                cube([fanWidth-10,fanThickness+fanHolderWallThickness*2,5]);
-//                
-//            }
+//    //power/sd card corner mounting peg
+//    translate([-14.5,55,baseHeight]){
+//        color("Green")
+//        cylinder(mountingPegBaseHeight, mountingPegBaseRadius, mountingPegBaseRadius);
+//        translate([0,0,mountingPegBaseHeight]){
+//            color("Green")
+//            cylinder(mountingPegHeight, mountingPegRadius, mountingPegRadius*0.9);
 //        }
 //    }
-    
+    //OR power/sd card corner heat insert //ugh tired, this is going to magic numbers
+    translate([-14.5,55,baseHeight+mountingPegBaseHeight-voidInsertHeight]){
+        difference(){
+            color("Green")
+            cylinder(voidInsertHeight, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
+            translate([0,0,0]){
+                //NB: subtraction from base occurs higher up, this ujst subtracts from above base cylinder
+                color("Green")
+                cylinder(voidInsertHeight, voidInsertRadius-0.1, voidInsertRadius);
+            }
+        }
+    }
+  
 
 }// end module base
 //whitespace
@@ -451,12 +514,38 @@ module base(){
 
 
 
-//base();
+base();
 //basin();
-        
+      
 island();
-frictionFitPosts();
+//frictionFitPosts();
 
 //showStatues();
- 
 
+
+ 
+//        powerPassThroughRadius = 4;
+//        powerPassThroughWidth = 20; 
+////
+//                hull(){
+//                cylinder((wallMinThickness+wallUprightsThickness)*3,powerPassThroughRadius,powerPassThroughRadius);
+//                    translate([powerPassThroughWidth-powerPassThroughRadius*2,0,0]){
+//                        cylinder((wallMinThickness+wallUprightsThickness)*3,powerPassThroughRadius,powerPassThroughRadius);
+//                    }
+//                
+//                
+//                    translate([-powerPassThroughRadius,-(powerPassThroughRadius+5),0]){
+//                        cube([powerPassThroughWidth,powerPassThroughRadius+5,(wallMinThickness+wallUprightsThickness)*3]);
+//                    }
+//                }
+
+
+//                hull(){
+//                    cylinder((wallMinThickness+wallUprightsThickness)*3,powerPassThroughRadius,powerPassThroughRadius);
+//                    translate([powerPassThroughRadius*2,0,0]){
+//                        cylinder((wallMinThickness+wallUprightsThickness)*3,powerPassThroughRadius,powerPassThroughRadius);
+//                    }
+//                    translate([-powerPassThroughRadius,-(powerPassThroughRadius+5),0]){
+//                        cube([powerPassThroughWidth,powerPassThroughRadius+5,(wallMinThickness+wallUprightsThickness)*3]);
+//                    }
+//                }
