@@ -15,7 +15,7 @@
 
 //TODO TODO
 //test friction fit pegs
-//screw holes and inset for screw heads on bottom of base
+//screw holes and inset for screw heads on bottom of base NEED TO GET screws to see head angle and height...
 //material for heat set inserts to go into
 //check hemispherical boss clearance on final render
 //NOPE-fan holder under island opens towards the -y axis (towards the +x axis plinth)
@@ -32,6 +32,7 @@
 
 
 draftingFNs = 36;
+minkowskiDraftFNs = 90; //fan vent through island will not subtract through correctly unless minkowski curvature of void piece is fine enough
 renderFNs = 180;
 $fn = draftingFNs;
 
@@ -83,55 +84,9 @@ voidInsertHeight = 5;
 voidInsertHeightBottomPadding = 2;
 voidInsertWallThickness = 3;
 
-rotHeat = 9.3; //how many degrees to rotate heat insert on basin walls to center them
+rotHeat = 9; //how many degrees to rotate heat insert on basin walls to center them
 gapBaseBasinFactor = 1.05; //factor to multiple base height by to get a small gap between heat set insert and actual base plate - not used.
 gapBaseBasinSize = 0.24; //absolute size to add to get a small gap between heat set insert and actual base plate - about one printed layer
-
-//test heat insert on basin wall
-difference(){
-    union(){
-        translate([0,0,baseHeight+gapBaseBasinSize]){
-        //        rotate([0,0,(0-5)/2]){
-            rotate([0,0,-rotHeat/2]){
-                rotate_extrude(angle = rotHeat){
-                    translate([gutterRadius+islandRadius-6,0,0]){
-                        square([6.1,7]);
-                    }
-                }
-            }
-        }
-        translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
-        //        difference(){
-            color("Green")
-            cylinder(7, voidInsertRadius+3, voidInsertRadius+3);
-        }
-    } //end union
-        
-        
-    //            translate([0,0,-2]){
-    translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
-        color("Green")
-        cylinder(7, voidInsertRadius, voidInsertRadius-0.1);
-    }
-
-}
-
-
-
-//
-//    translate([-14.5,55,baseHeight]){
-//        difference(){
-//            color("Green")
-//            cylinder(5, voidInsertRadius+3, voidInsertRadius+3);
-//            translate([0,0,-2]){
-//                color("Green")
-//                cylinder(7, voidInsertRadius-0.1, voidInsertRadius);
-//            }
-//        }
-//    }
-
-
-
 
 
 
@@ -330,6 +285,8 @@ difference(){ //outer donut to chop off vertical slabs
             translate([0,0,wallHeight-wallUprightsThickness]){
                 cylinder(wallUprightsThickness, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
             }
+            
+            //TODO remove this if printing upside down - and then move hemispherical bosses up a little for nicer proportions
             //top ridge graduated overhang (so no supports needed when printing)
             translate([0,0,wallHeight-wallUprightsThickness*2+0.5]){
                 cylinder(wallUprightsThickness-0.5,wallMinThickness+gutterRadius+islandRadius,wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
@@ -355,9 +312,9 @@ difference(){ //outer donut to chop off vertical slabs
                 }
             }
             
-        }//end union
+        }//end main outer wall full cylinder union
         
-        //main interior void
+        //main interior void to remove from above full cylinder to make outer wall donut
         cylinder(wallHeight+1, gutterRadius+islandRadius, gutterRadius+islandRadius);
         
 //        //fan vents
@@ -369,7 +326,7 @@ difference(){ //outer donut to chop off vertical slabs
         
         //intake vents 
         //ugh magic numbers for not cutting out columns
-        for (i = [-8,-7,-6,-5,-4,-3,-2,0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22]){
+        for (i = [-8,-7,-6,-5,-4,-3,-2,0,1,2,3,4,5,6,7,8,9,13,14,15,16,17,18,19,20,21,22]){
             rotate([0,0,3.75+i*3]){
                 translate([-(gutterRadius+islandRadius)-6,0,wallUprightsThickness]){
                     cube([(wallMinThickness+wallUprightsThickness)*2,2,8.5]); //FIXME magic number, from fanwidth - base - height - wall thickness or some such
@@ -417,6 +374,8 @@ difference(){ //outer donut to chop off vertical slabs
         }
     } //end difference - main outside wall
     
+
+    
     //create donut that interior void starts at outside of outside uprgihts - this will chop off extensions of verical uprights that are not circular
     difference(){
         //outer wall of donut, with room to spare
@@ -425,6 +384,122 @@ difference(){ //outer donut to chop off vertical slabs
         cylinder(wallHeight+2,(wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius), (wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius));
     }
 }//end difference - outer donut to chop off vertical slabs
+
+
+
+//heat insert on basin wall
+rotate([0,0,30]){
+    difference(){
+        hull(){
+            translate([0,0,baseHeight+gapBaseBasinSize]){
+            //        rotate([0,0,(0-5)/2]){
+                rotate([0,0,-rotHeat/2]){
+                    rotate_extrude(angle = rotHeat){
+                        translate([gutterRadius+islandRadius-6,0,0]){
+                            square([6.5,7]); //.5 to close gap between tihs and wall
+                        }
+                    }
+                }
+            }
+            translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+                color("Green")
+                cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
+            }
+        } //end union
+            
+        //remove void for heat set insert
+        translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+            color("Green")
+            cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius, voidInsertRadius-0.1);
+        }
+    
+    }
+}
+//heat insert on basin wall
+rotate([0,0,130]){
+    difference(){
+        hull(){
+            translate([0,0,baseHeight+gapBaseBasinSize]){
+            //        rotate([0,0,(0-5)/2]){
+                rotate([0,0,-rotHeat/2]){
+                    rotate_extrude(angle = rotHeat){
+                        translate([gutterRadius+islandRadius-6,0,0]){
+                            square([6.5,7]); //.5 to close gap between tihs and wall
+                        }
+                    }
+                }
+            }
+            translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+                color("Green")
+                cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
+            }
+        } //end union
+            
+        //remove void for heat set insert
+        translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+            color("Green")
+            cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius, voidInsertRadius-0.1);
+        }
+    
+    }
+}
+//heat insert on basin wall
+rotate([0,0,216]){
+    difference(){
+        hull(){
+            translate([0,0,baseHeight+gapBaseBasinSize]){
+            //        rotate([0,0,(0-5)/2]){
+                rotate([0,0,-rotHeat/2]){
+                    rotate_extrude(angle = rotHeat){
+                        translate([gutterRadius+islandRadius-6,0,0]){
+                            square([6.5,7]); //.5 to close gap between tihs and wall
+                        }
+                    }
+                }
+            }
+            translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+                color("Green")
+                cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
+            }
+        } //end union
+            
+        //remove void for heat set insert
+        translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+            color("Green")
+            cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius, voidInsertRadius-0.1);
+        }
+    
+    }
+}
+//heat insert on basin wall
+rotate([0,0,300]){
+    difference(){
+        hull(){
+            translate([0,0,baseHeight+gapBaseBasinSize]){
+            //        rotate([0,0,(0-5)/2]){
+                rotate([0,0,-rotHeat/2]){
+                    rotate_extrude(angle = rotHeat){
+                        translate([gutterRadius+islandRadius-6,0,0]){
+                            square([6.5,7]); //.5 to close gap between tihs and wall
+                        }
+                    }
+                }
+            }
+            translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+                color("Green")
+                cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
+            }
+        } //end union
+            
+        //remove void for heat set insert
+        translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+            color("Green")
+            cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius, voidInsertRadius-0.1);
+        }
+    
+    }
+}
+    
 } //end module basin
 //whitespace
 
@@ -514,10 +589,10 @@ module base(){
 
 
 
-base();
-//basin();
+//base();
+basin();
       
-island();
+//island();
 //frictionFitPosts();
 
 //showStatues();
