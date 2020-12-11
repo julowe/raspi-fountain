@@ -16,7 +16,6 @@
 //TODO TODO
 //test friction fit pegs
 //screw holes and inset for screw heads on bottom of base NEED TO GET screws to see head angle and height...
-//material for heat set inserts to go into
 //check hemispherical boss clearance on final render
 //NOPE-fan holder under island opens towards the -y axis (towards the +x axis plinth)
 //YEP-heat insert holes to hold fan in place
@@ -83,6 +82,7 @@ voidInsertRadius = 5.3/2;
 voidInsertHeight = 5;
 voidInsertHeightBottomPadding = 2;
 voidInsertWallThickness = 3;
+heatSetHoleRotationMatrix = [30,130,216,300];
 
 rotHeat = 9; //how many degrees to rotate heat insert on basin walls to center them
 gapBaseBasinFactor = 1.05; //factor to multiple base height by to get a small gap between heat set insert and actual base plate - not used.
@@ -386,119 +386,37 @@ difference(){ //outer donut to chop off vertical slabs
 }//end difference - outer donut to chop off vertical slabs
 
 
+//heat inserts on basin wall
+for (holeRotation = heatSetHoleRotationMatrix){
+    rotate([0,0,holeRotation]){
+        difference(){
+            hull(){
+                translate([0,0,baseHeight+gapBaseBasinSize]){
+                //        rotate([0,0,(0-5)/2]){
+                    rotate([0,0,-rotHeat/2]){
+                        rotate_extrude(angle = rotHeat){
+                            translate([gutterRadius+islandRadius-6,0,0]){
+                                square([6.5,7]); //.5 to close gap between tihs and wall
+                            }
+                        }
+                    }
+                }
+                translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+                    color("Green")
+                    cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
+                }
+            } //end union
+                
+            //remove void for heat set insert
+            translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+                color("Green")
+                cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius, voidInsertRadius-0.1);
+            }
+        
+        }
+    }
+}
 
-//heat insert on basin wall
-rotate([0,0,30]){
-    difference(){
-        hull(){
-            translate([0,0,baseHeight+gapBaseBasinSize]){
-            //        rotate([0,0,(0-5)/2]){
-                rotate([0,0,-rotHeat/2]){
-                    rotate_extrude(angle = rotHeat){
-                        translate([gutterRadius+islandRadius-6,0,0]){
-                            square([6.5,7]); //.5 to close gap between tihs and wall
-                        }
-                    }
-                }
-            }
-            translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
-                color("Green")
-                cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
-            }
-        } //end union
-            
-        //remove void for heat set insert
-        translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
-            color("Green")
-            cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius, voidInsertRadius-0.1);
-        }
-    
-    }
-}
-//heat insert on basin wall
-rotate([0,0,130]){
-    difference(){
-        hull(){
-            translate([0,0,baseHeight+gapBaseBasinSize]){
-            //        rotate([0,0,(0-5)/2]){
-                rotate([0,0,-rotHeat/2]){
-                    rotate_extrude(angle = rotHeat){
-                        translate([gutterRadius+islandRadius-6,0,0]){
-                            square([6.5,7]); //.5 to close gap between tihs and wall
-                        }
-                    }
-                }
-            }
-            translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
-                color("Green")
-                cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
-            }
-        } //end union
-            
-        //remove void for heat set insert
-        translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
-            color("Green")
-            cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius, voidInsertRadius-0.1);
-        }
-    
-    }
-}
-//heat insert on basin wall
-rotate([0,0,216]){
-    difference(){
-        hull(){
-            translate([0,0,baseHeight+gapBaseBasinSize]){
-            //        rotate([0,0,(0-5)/2]){
-                rotate([0,0,-rotHeat/2]){
-                    rotate_extrude(angle = rotHeat){
-                        translate([gutterRadius+islandRadius-6,0,0]){
-                            square([6.5,7]); //.5 to close gap between tihs and wall
-                        }
-                    }
-                }
-            }
-            translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
-                color("Green")
-                cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
-            }
-        } //end union
-            
-        //remove void for heat set insert
-        translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
-            color("Green")
-            cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius, voidInsertRadius-0.1);
-        }
-    
-    }
-}
-//heat insert on basin wall
-rotate([0,0,300]){
-    difference(){
-        hull(){
-            translate([0,0,baseHeight+gapBaseBasinSize]){
-            //        rotate([0,0,(0-5)/2]){
-                rotate([0,0,-rotHeat/2]){
-                    rotate_extrude(angle = rotHeat){
-                        translate([gutterRadius+islandRadius-6,0,0]){
-                            square([6.5,7]); //.5 to close gap between tihs and wall
-                        }
-                    }
-                }
-            }
-            translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
-                color("Green")
-                cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
-            }
-        } //end union
-            
-        //remove void for heat set insert
-        translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
-            color("Green")
-            cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius, voidInsertRadius-0.1);
-        }
-    
-    }
-}
     
 } //end module basin
 //whitespace
@@ -529,8 +447,46 @@ module base(){
             
             }
         }
-    } 
+        
+        screwHoleDiameter = 3.5;//m3 = 3mm diam
+        screwHeadVerticalInset = 0.5;
+        screwHeadHeight = 2;
+        screwHeadDiameterOuter = 5;
+        screwHeadDiameterInner = screwHoleDiameter;
+        
+        
+        
+        
+        //remove screw holes
+        for (holeRotation = heatSetHoleRotationMatrix){
+
+            rotate([0,0,holeRotation]){
+                //remove void for screw shaft
+                translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,0]){
+                    color("Green")
+                    cylinder(baseHeight, screwHoleDiameter/2, screwHoleDiameter/2);
+                }
+                
+                //remove void for screw head
+                translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,screwHeadVerticalInset]){
+                    color("Green")
+                    cylinder(screwHeadHeight, screwHeadDiameterOuter/2, screwHeadDiameterInner/2);
+                }
+                
+                //remove void for screw head inset
+                translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,0]){
+                    color("Green")
+                    cylinder(screwHeadVerticalInset, (screwHeadDiameterOuter/2)*1.2, screwHeadDiameterOuter/2);
+                }
+            }        
+        }
+
+
+    } //end difference
        
+    //
+    //add pi holder stuff
+    //
     
     //usb/audio corner mounting peg   
     translate([-14.5,-3,baseHeight]){
@@ -589,7 +545,7 @@ module base(){
 
 
 
-//base();
+base();
 basin();
       
 //island();
