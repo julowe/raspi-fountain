@@ -182,16 +182,16 @@ piClearance = 16+1+5+3; //16 for usb, 1 for board, 5 for friction fit peg bases,
 //piClearance = fanWidth;
 islandCircleHeight = 6;
 islandCircleZ = piClearance + baseHeight;
-minkPlinthRad = 3;
-minkVoidRad = 5;
+minkRadPlinth = 3;
+minkRadVoid = 5;
 
 module island(){
 difference(){
     union(){ 
         //main circular platform to support plinths
-        translate([0,0,islandCircleZ-5]){
+        translate([0,0,islandCircleZ-minkRadVoid]){
             color("Blue")
-            cylinder(islandCircleHeight+5, gutterRadius+islandRadius, gutterRadius+islandRadius); 
+            cylinder(islandCircleHeight+minkRadVoid, gutterRadius+islandRadius, gutterRadius+islandRadius); 
         }
     
         //island cubes
@@ -200,8 +200,8 @@ difference(){
             translate([0,0,statueHeight/2]){
                 cube([islandLength,islandWidth,statueHeight],true);
             }
-            translate([0,0,0-minkPlinthRad]){
-                sphere(minkPlinthRad);
+            translate([0,0,0-minkRadPlinth]){
+                sphere(minkRadPlinth);
             }
         }
         
@@ -210,8 +210,8 @@ difference(){
             translate([0,0,statueHeight/2]){
                 cube([islandWidth,islandLength,statueHeight],true);
             }
-            translate([0,0,0-minkPlinthRad]){
-                sphere(minkPlinthRad);
+            translate([0,0,0-minkRadPlinth]){
+                sphere(minkRadPlinth);
             }
         }
     }//end union
@@ -226,11 +226,11 @@ difference(){
     
     //remove bottom of plints and chamfer bottom edge of island
     minkowski(){
-        translate([0,0,-minkVoidRad*2]){
-            cylinder(islandCircleZ+minkVoidRad*2,gutterRadius+islandRadius-minkVoidRad,gutterRadius+islandRadius-minkVoidRad);
+        translate([0,0,-minkRadVoid*2]){
+            cylinder(islandCircleZ+minkRadVoid*2,gutterRadius+islandRadius-minkRadVoid,gutterRadius+islandRadius-minkRadVoid);
         }
-        translate([0,0,-minkVoidRad]){
-            sphere(minkVoidRad);
+        translate([0,0,-minkRadVoid]){
+            sphere(minkRadVoid);
         }
     }
 } //end difference
