@@ -18,7 +18,8 @@
 //material for heat set inserts to go into
 //more/bigger fan vents?
 //check hemispherical boss clearance on final render
-//fan holder under island opens towards the -y axis (towards the +x axis plinth)
+//NOPE-fan holder under island opens towards the -y axis (towards the +x axis plinth)
+//YEP-heat insert holes to hold fan in place
 //fan cable clip behind holder
 
 //FIRST: test printing basin upside down with new filament. see if support marks marr the visible surface. If not, then we can print upside down and have outer wall be entireley attached to base. (base does not need to be that thick, but see if printing time is much saved for decrese in the inner part's height)
@@ -174,7 +175,7 @@ difference(){
 //29.8 length swaure of fan
 //2 width of fan central bars, so use 3
 
-//fan outflow vent supports
+//fan outflow vent supports/struts
 translate([33,33,islandCircleZ]){
     color("DarkSlateGray")
     cylinder(islandCircleHeight, 17.5/2, 17.5/2);
@@ -195,52 +196,7 @@ translate([33,33,islandCircleZ]){
             cube([15,4,islandCircleHeight]);
         }
     }
-}
-
-
-
-
-
-//    //OLDOLDOLDfan holder
-//    translate([-(fanWidth+fanHolderWallThickness*2)/2,62,baseHeight]){
-//        difference(){
-//            color("SlateGray")
-//            //outer holder
-//            cube([fanWidth+fanHolderWallThickness*2,fanThickness+fanHolderWallThickness*2,5]);
-//            
-//            translate([fanHolderWallThickness,fanHolderWallThickness,0]){
-//                //corners void
-//                cube([fanWidth,fanThickness,5]);
-//            }
-//            
-//            translate([fanWidth/2-10,0,0]){
-//                //central void
-//                cube([fanWidth-10,fanThickness+fanHolderWallThickness*2,5]);
-//                
-//            }
-//        }
-//    }
-    
-    
-    
-translate([33,33+(fanHolderWallThickness)/2,islandCircleZ-(fanThickness+fanHolderWallThickness)/2]){
-    difference(){
-        //fan holder walls/outer cube
-        cube([fanWidth+fanHolderWallThickness*2,fanWidth+fanHolderWallThickness,fanThickness+fanHolderWallThickness], true);
-        
-        translate([0,-(fanHolderWallThickness)/2,fanHolderWallThickness]){
-            //main fan holder void/inner cube
-            cube([fanWidth,fanWidth,fanThickness], true);
-        }
-        translate([0,0,0]){
-            //remove area under fan retaining corners and some of intake area of fan holder void
-            cube([fanWidth+fanHolderWallThickness*2-(fanCornerWidth*2),fanWidth+fanHolderWallThickness,fanThickness+fanHolderWallThickness], true);
-        }
-        
-        //remove center of fan intake area
-        cube([fanWidth+fanHolderWallThickness*2,fanWidth+fanHolderWallThickness-(fanCornerWidth*2),fanThickness+fanHolderWallThickness], true);
-}
-}
+} //end fan vent struts
 
 }
 //whitespace
