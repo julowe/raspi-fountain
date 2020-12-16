@@ -11,12 +11,6 @@
 //fan 30mm square, 7mm deep
 //pi is 90mm, 58mm, 21mm high]
 
-//TODO TODO
-//test friction fit pegs
-//screw holes and inset for screw heads on bottom of base NEED TO GET screws to see head angle and height...
-//check hemispherical boss clearance on final render
-//NOPE-fan holder under island opens towards the -y axis (towards the +x axis plinth)
-//YEP-heat insert holes to hold fan in place
 
 //maybe TODO
 //more/bigger fan vents?
@@ -93,7 +87,6 @@ statueHeight = wallHeight-5;
 
 
 
-//TODO make posts larger??
 module frictionFitPosts(){
 //column friction fit post
 translate([0,0,5/2+statueHeight]){
@@ -398,26 +391,35 @@ for (holeRotation = heatSetHoleRotationMatrix){
     rotate([0,0,holeRotation]){
         difference(){
             hull(){
+                //portion along inside basin wall for below cylinder to join/hull to
                 translate([0,0,baseHeight+gapBaseBasinSize]){
                 //        rotate([0,0,(0-5)/2]){
                     rotate([0,0,-rotHeat/2]){
                         rotate_extrude(angle = rotHeat){
-                            translate([gutterRadius+islandRadius-6,0,0]){
-                                square([6.5,7]); //.5 to close gap between tihs and wall
+                            translate([gutterRadius+islandRadius-1,0,0]){
+                                square([1.5,islandCircleZ-gapBaseBasinSize-baseHeight]); //.5 to close gap between tihs and wall
                             }
                         }
                     }
                 }
+                
+                //cylinder to make walls for heatset insert spot
                 translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
                     color("Green")
-                    cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
+                    cylinder(islandCircleZ-gapBaseBasinSize-baseHeight, voidInsertRadius+voidInsertWallThickness, voidInsertRadius+voidInsertWallThickness);
                 }
-            } //end union
+            } //end hull
                 
             //remove void for heat set insert
             translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
                 color("Green")
-                cylinder(voidInsertHeight+voidInsertHeightBottomPadding, voidInsertRadius, voidInsertRadius-0.1);
+                cylinder(voidInsertHeight+voidInsertHeightBottomPadding+3, voidInsertRadius, voidInsertRadius-0.1);
+            }
+                
+            //remove void for screw shaft
+            translate([gutterRadius+islandRadius-4-voidInsertRadius-3+3.8,0,baseHeight+gapBaseBasinSize]){
+                color("Green")
+                cylinder(islandCircleZ-gapBaseBasinSize-baseHeight, voidInsertRadius-0.1, 4/2);
             }
         
         }
