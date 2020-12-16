@@ -1,6 +1,7 @@
 //Fountain & RetroPi Case
 //justin Lowe 20201123
 
+//outline:
 //make island for imported models
 //import gargoyle x4 (52mm wide 39mm deep, 50mm tall)
 //import spout/coumn (22mm square, 70.8mm tall)
@@ -9,9 +10,6 @@
 
 //fan 30mm square, 7mm deep
 //pi is 90mm, 58mm, 21mm high]
-
-//difference on stls is fucked
-//difference(){
 
 //TODO TODO
 //test friction fit pegs
@@ -25,15 +23,10 @@
 //make vents travel up to top of basin further?
 //fan cable clip behind holder
 
-//FIRST: test printing basin upside down with new filament. see if support marks marr the visible surface. If not, then we can print upside down and have outer wall be entireley attached to base. (base does not need to be that thick, but see if printing time is much saved for decrese in the inner part's height)
-//    upside down: allows for straight top under edge of wall (not 45 degree angle). might be less support material & faster print (depends on height of inner circular platform from bottom vs from top). no bridging of passthroughs, but that seemed to go fine.
-//possibly have inset track in base for inner wall width (not outer wall uprights)
-
 
 draftingFNs = 36;
-minkowskiDraftFNs = 90; //fan vent through island will not subtract through correctly unless minkowski curvature of void piece is fine enough
 renderFNs = 180;
-$fn = renderFNs;
+$fn = draftingFNs;
 
 
 //////////////////////////////////////////////////
@@ -138,7 +131,7 @@ islandWidth = 28;
 islandLength = (abs(gargoyleOffset)+12)*2;
 piClearance = 16+1+5+3; //16 for usb, 1 for board, 5 for friction fit peg bases, some for slack
 //piClearance = fanWidth;
-islandCircleHeight = 6;
+islandCircleHeight = 6; //heatset inserts are 5mm deep
 islandCircleZ = piClearance + baseHeight;
 minkRadPlinth = 3;
 minkRadVoid = 5;
@@ -301,7 +294,6 @@ difference(){ //outer donut to chop off vertical slabs
                 cylinder(wallUprightsThickness, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius, wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
             }
             
-            //TODO remove this if printing upside down - and then move hemispherical bosses up a little for nicer proportions
             //top ridge graduated overhang (so no supports needed when printing)
             translate([0,0,wallHeight-wallUprightsThickness*2+0.5]){
                 cylinder(wallUprightsThickness-0.5,wallMinThickness+gutterRadius+islandRadius,wallUprightsThickness+wallMinThickness+gutterRadius+islandRadius);
@@ -351,7 +343,7 @@ difference(){ //outer donut to chop off vertical slabs
         
         //usb passthrough hole
         usbPassThroughRadius = 4;
-        usbPassThroughWidth = 20; //TODO check this
+        usbPassThroughWidth = 20; //room for 5 cables side to side and likely 2 rows of them - at least rows of 5 & 4
         translate([-usbPassThroughRadius-12.5,-(gutterRadius+islandRadius)+4,usbPassThroughRadius-3+baseHeight+mountingPegBaseHeight]){
             rotate([90,0,0]){
                 hull(){
@@ -371,7 +363,7 @@ difference(){ //outer donut to chop off vertical slabs
         //usb cable is around 5mm DIAMETER, so how about 4mm radius hole x 5 cables
 
         powerPassThroughRadius = 4;
-        powerPassThroughWidth = 10; // TODO check this fits 2 or more cables well
+        powerPassThroughWidth = 10; // yup fits power and minihdmi. or also fits 3+ usb cables
         //translate([-powerPassThroughRadius,-(gutterRadius+islandRadius)+4,powerPassThroughRadius+2+baseHeight+mountingPegBaseHeight]){
         //FIXME magic number of 60, correct way is to use trig. fix later...
         translate([-60,55-15.1-1.5,powerPassThroughRadius-3+baseHeight+mountingPegBaseHeight]){
@@ -559,39 +551,34 @@ module base(){
 
 
 
-
-//base();
-//basin();
-      
-island();
-//frictionFitPosts();
-
-//showStatues();
-
+difference(){
+    union(){
+        //base is printed by itself
+//        base();
+        
+        //basin, island, and frction fit posts are printed together
+        basin();
+        island();
+        frictionFitPosts();
+        
+        ////statues are just here for proportion. use original STL/3mf files
+        //showStatues();
+    }
+    
+    //cut away model for test prints
+//    translate([-110,0,0]){
+//        cube([150,100,100]);
+//    }
+//    translate([-100,-100,0]){
+//        cube([100,100,100]);
+//    }
+//    translate([-10,-130,0]){
+//        cube([100,150,100]);
+//    }
+////    translate([-100,0,0]){
+////        cube([100,100,100]);
+////    }
+}
 
  
-//        powerPassThroughRadius = 4;
-//        powerPassThroughWidth = 20; 
-////
-//                hull(){
-//                cylinder((wallMinThickness+wallUprightsThickness)*3,powerPassThroughRadius,powerPassThroughRadius);
-//                    translate([powerPassThroughWidth-powerPassThroughRadius*2,0,0]){
-//                        cylinder((wallMinThickness+wallUprightsThickness)*3,powerPassThroughRadius,powerPassThroughRadius);
-//                    }
-//                
-//                
-//                    translate([-powerPassThroughRadius,-(powerPassThroughRadius+5),0]){
-//                        cube([powerPassThroughWidth,powerPassThroughRadius+5,(wallMinThickness+wallUprightsThickness)*3]);
-//                    }
-//                }
-
-
-//                hull(){
-//                    cylinder((wallMinThickness+wallUprightsThickness)*3,powerPassThroughRadius,powerPassThroughRadius);
-//                    translate([powerPassThroughRadius*2,0,0]){
-//                        cylinder((wallMinThickness+wallUprightsThickness)*3,powerPassThroughRadius,powerPassThroughRadius);
-//                    }
-//                    translate([-powerPassThroughRadius,-(powerPassThroughRadius+5),0]){
-//                        cube([powerPassThroughWidth,powerPassThroughRadius+5,(wallMinThickness+wallUprightsThickness)*3]);
-//                    }
-//                }
+//end file
