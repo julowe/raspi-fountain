@@ -129,7 +129,7 @@ rotate([0,0,-90]){
 
 islandWidth = 28;
 islandLength = (abs(gargoyleOffset)+12)*2;
-piClearance = 16+1+5+3; //16 for usb, 1 for board, 5 for friction fit peg bases, some for slack
+piClearance = 16+2+4+2; //16 for usb, 2 for board, 4 for friction fit peg bases, 2 for some for slack
 //piClearance = fanWidth;
 islandCircleHeight = 6; //heatset inserts are 5mm deep
 islandCircleZ = piClearance + baseHeight;
@@ -455,10 +455,10 @@ module base(){
             }
         }
         
-        screwHoleDiameter = 3.5;//m3 = 3mm diam
+        screwHoleDiameter = 3.5;//m3 = 3mm diam, 2.93mm actual
         screwHeadVerticalInset = 0.5;
         screwHeadHeight = 2;
-        screwHeadDiameterOuter = 5;
+        screwHeadDiameterOuter = 5.75; //5.37mm actual
         screwHeadDiameterInner = screwHoleDiameter;
         
         
