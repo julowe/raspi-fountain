@@ -72,7 +72,11 @@ voidInsertRadius = 5.3/2;
 voidInsertHeight = 5;
 voidInsertHeightBottomPadding = 2;
 voidInsertWallThickness = 3;
-heatSetHoleRotationMatrix = [30,130,216,300];
+
+// [+x/+y, -x/+y, ... 
+//TODO fix/test new alignment of -x/+y heat inset - it is too close to power cable from pi
+//is 120 good? was 130.
+heatSetHoleRotationMatrix = [30,120,216,300];
 
 rotHeat = 9; //how many degrees to rotate heat insert on basin walls to center them
 gapBaseBasinFactor = 1.05; //factor to multiple base height by to get a small gap between heat set insert and actual base plate - not used.
@@ -82,7 +86,7 @@ gapBaseBasinSize = 0.24; //absolute size to add to get a small gap between heat 
 
 
 gargoyleOffset = -45;
-columnScaling = 1.6;
+columnScaling = 1.8;
 statueHeight = wallHeight-5;
 
 
@@ -118,6 +122,64 @@ rotate([0,0,-90]){
 }
 //whitespace
 
+
+
+module showStatues(){
+    
+//tall central column
+rotate([0,0,0]){
+    translate([0,0,statueHeight]){
+        scale([columnScaling,columnScaling,columnScaling]){
+            translate([-24.32,-28.92,0]){
+                import("/home/justin/code/raspi-fountain/Gargoyle_Fountain-spout_tall.stl");
+            }
+        }
+    }
+}
+
+////original height central column
+//rotate([0,0,0]){
+//    translate([0,0,statueHeight]){
+//        scale([columnScaling,columnScaling,columnScaling]){
+//            translate([-24.32,-28.92,0]){
+//                import("/home/justin/code/raspi-fountain/Gargoyle_Fountain-spout.stl");
+//            }
+//        }
+//    }
+//}
+
+translate([0,gargoyleOffset,statueHeight]){
+    import("/home/justin/code/raspi-fountain/Gargoyle.stl");
+}
+
+rotate([0,0,90]){
+    translate([0,gargoyleOffset,statueHeight]){
+    import("/home/justin/code/raspi-fountain/Gargoyle.stl");
+    }
+}
+
+rotate([0,0,180]){
+    translate([0,gargoyleOffset,statueHeight]){
+    import("/home/justin/code/raspi-fountain/Gargoyle.stl");
+    }
+}
+
+rotate([0,0,-90]){
+    translate([0,gargoyleOffset,statueHeight]){
+    import("/home/justin/code/raspi-fountain/Gargoyle.stl");
+    }
+}
+
+
+    //
+    //translate([24.32,28.92,5/2]){
+    //    color("Red")
+    ////    cube([22.1,22.1,70.8],true); //true size
+    //    cube([5,5,5],true); //true size
+    //  }
+
+}
+//whitespace
 
 
 islandWidth = 28;
@@ -223,51 +285,6 @@ translate([33,33,islandCircleZ]){
 
 
 
-
-
-module showStatues(){
-rotate([0,0,0]){
-    translate([0,0,statueHeight]){
-        scale([columnScaling,columnScaling,columnScaling]){
-            translate([-24.32,-28.92,0]){
-                import("/home/justin/code/raspi-fountain/Gargoyle_Fountain-spout_tall.stl");
-            }
-        }
-    }
-}
-
-translate([0,gargoyleOffset,statueHeight]){
-    import("/home/justin/code/raspi-fountain/Gargoyle.stl");
-}
-
-rotate([0,0,90]){
-    translate([0,gargoyleOffset,statueHeight]){
-    import("/home/justin/code/raspi-fountain/Gargoyle.stl");
-    }
-}
-
-rotate([0,0,180]){
-    translate([0,gargoyleOffset,statueHeight]){
-    import("/home/justin/code/raspi-fountain/Gargoyle.stl");
-    }
-}
-
-rotate([0,0,-90]){
-    translate([0,gargoyleOffset,statueHeight]){
-    import("/home/justin/code/raspi-fountain/Gargoyle.stl");
-    }
-}
-
-
-    //
-    //translate([24.32,28.92,5/2]){
-    //    color("Red")
-    ////    cube([22.1,22.1,70.8],true); //true size
-    //    cube([5,5,5],true); //true size
-    //  }
-
-}
-//whitespace
 
 
             
@@ -556,15 +573,16 @@ module base(){
 difference(){
     union(){
         //base is printed by itself
-//        base();
+        base();
         
         //basin, island, and frction fit posts are printed together
         basin();
         island();
         frictionFitPosts();
         
-        ////statues are just here for proportion. use original STL/3mf files
-        //showStatues();
+        //statues are just here for proportion. use original STL/3mf files
+        //BUT REMEMBER TO SCALE COLUMN CORRECTLY!
+        showStatues();
     }
     
     //cut away model for test prints
