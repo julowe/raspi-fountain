@@ -1,15 +1,17 @@
 # Raspberry Pi Fountain Style Case
 Case for Raspberry Pi/RetroPi in shape of a fountain basin.
 
-This repo contains an OpenSCAD file for basin (with base), including friction fit posts for statues and raspi.
+This repo contains an OpenSCAD file for the basin (with base) that I created. It currently includes friction fit posts for statues and raspi.
 
-And two models (the statues), of gargoyles and a central column. Remember to scale up the central column...
+Repo also includes two STL file I did not create - [gargoyles](https://www.thingiverse.com/thing:2490820) and [a central column](https://www.thingiverse.com/thing:2179993). Remember to scale up the central column...
+
+Inspiration from [this fountain on Thingiverse](https://www.thingiverse.com/thing:2144984).
 
 ## Printing
 
 Printed at 0.12mm layer height mostly on Ender 3 with Marble PLA, to fair success.
 
-Just did lazy way of creating 5.2mm cube voids in bottom of gargoyle and column models so they would fit on friction fit posts on basin. In hindsight, just using the 5mm diameter heatset inserts and having holes in the basin top (vs somewhat fragile posts) would probably have been better
+Just did lazy way of creating 5.2mm cube voids (in slicing program) in bottom of gargoyle and column models so they would fit on friction fit posts on basin. In hindsight, just using the 5mm diameter heatset inserts and having holes in the basin top (vs somewhat fragile posts) would have been better.
 
 ## Assembly
 All heatset insert void were made for 5mm diameter m3 versions. Along with holes and screw-head insets on bottom of base. Roughly need:
@@ -35,5 +37,4 @@ Inside of fountain, showing orientation of Pi
 
 Basin top showing friction fit posts and attachment point on gargoyle model
 
-![Showing friction fit posts and gargoyle attachment spot](
-fountain-gargoyle-fit.jpeg )
+![Showing friction fit posts and gargoyle attachment spot](fountain-gargoyle-fit.jpeg )
